@@ -1,27 +1,25 @@
-import { useState } from "react";
 import "./App.css";
-import { LaunchPad } from "./launchpad";
-import { ConnectionProvider, WalletProvider} from "@solana/wallet-adapter-react";
-import "@solana/wallet-adapter-react-ui/styles.css"
-import { WalletModalProvider, WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Airdrop } from "./components/Airdrop";
+import { Layout } from "./components/Layout";
+import { SendToken } from "./components/SendToken";
+import { LaunchToken } from "./components/LaunchToken";
+import { Swapping } from "./components/Swapping";
 
 function App() {
-  return (
-    <ConnectionProvider endpoint="https://solana-devnet.g.alchemy.com/v2/nEDdb5_tm52gBvJIgCXgOZiwsHdQp4AB">
-      <WalletProvider wallets={[]}>
-      <WalletModalProvider>
-
-      <div style={{display: "flex", justifyContent: "flex-end"}}><WalletMultiButton
-      style={{
-        transform: "scale(0.8)",
-        margin: "0 auto"
-      }}></WalletMultiButton></div>
-        <LaunchPad />
-      
-        </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
-  );
+return(  <div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout/>}>
+        <Route path="/airdrop" element={<Airdrop/>}/>
+        <Route path="/send-token" element={<SendToken/>}/>
+        <Route path="/launch-token" element={<LaunchToken/>}/>
+        <Route path="/swapping" element={<Swapping/>}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </div>)
 }
+
 
 export default App;
