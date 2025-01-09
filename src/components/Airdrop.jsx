@@ -1,6 +1,7 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useState } from "react";
+import { notify } from "./Toast";
 
 export function Airdrop() {
 
@@ -14,10 +15,18 @@ export function Airdrop() {
   }
 
   async function airdropSol(){
-    console.log(wallet.publicKey)
-    console.log(parseFloat(amount))
-    await connection.requestAirdrop(wallet.publicKey, parseFloat(amount) * LAMPORTS_PER_SOL);
-    console.log("done, ppap"+ parseFloat(amount)*LAMPORTS_PER_SOL)
+
+    if(!wallet.publicKey){
+      notify("wallet not connected", "error")
+    }else{
+      try{
+        await connection.requestAirdrop(wallet.publicKey, parseFloat(amount) * LAMPORTS_PER_SOL);
+        notify(`Airdrop ${amount} SOL successfully`, "success")
+      }catch(e){
+        notify("Error while airdropping SOL", "error")
+      }
+    };
+
   };
 
   return (

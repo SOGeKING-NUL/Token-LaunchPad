@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         customDark: "#000101",
+        text_comp: "#a381f7",
         comp_color: "#512da8",
         comp_hover: "#1a1f2e" 
       },

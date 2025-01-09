@@ -6,11 +6,13 @@ import { Layout } from "./components/Layout";
 import { SendToken } from "./components/SendToken";
 import { LaunchToken } from "./components/LaunchToken";
 import { Swapping } from "./components/Swapping";
+import { Toaster } from "react-hot-toast";
 
 function App(){
 return<div>
     <ConnectionProvider endpoint="https://api.devnet.solana.com">
       <WalletProvider wallets={[]}>
+    <Toaster/>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout/>}>
@@ -25,6 +27,5 @@ return<div>
     </ConnectionProvider>
   </div>
 }
-
 
 export default App;
