@@ -7,7 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        customDark: "#000101", 
+        customDark: "#000101",
+        comp_color: "#512da8",
+        comp_hover: "#1a1f2e" 
       },
     },
   },

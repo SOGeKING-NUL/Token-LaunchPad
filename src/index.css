@@ -9,3 +9,16 @@ body{
   color: #fffefe;
 }
 
+/* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove increment/decrement buttons for number input */
+input[type="number"] {
+  appearance: textfield; /* Standard property */
+  -moz-appearance: textfield; /* Firefox-specific */
+  -webkit-appearance: none; /* WebKit-based browsers (e.g., Chrome, Safari) */
+}
