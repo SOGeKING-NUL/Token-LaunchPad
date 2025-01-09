@@ -12,7 +12,7 @@ function App(){
 return<div>
     <ConnectionProvider endpoint="https://api.devnet.solana.com">
       <WalletProvider wallets={[]}>
-    <Toaster/>
+    <Toaster containerId="toast-container"/>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout/>}>

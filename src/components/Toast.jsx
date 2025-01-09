@@ -1,17 +1,19 @@
-// Toast.js
-export function notify(message, type) {
-    const toastContainer = document.getElementById('toast-container');
-  
-    if (toastContainer) {
-      const toast = document.createElement('div');
-      toast.className = `toast ${type}`; // Add your toast styles here (success, error, etc.)
-      toast.innerHTML = message;
-      
-      toastContainer.appendChild(toast);
-  
-      setTimeout(() => {
-        toast.remove(); // Remove the toast after some time
-      }, 3000); // 3 seconds duration
-    }
+import toast from "react-hot-toast";
+
+export const notify = (message, type = "success") => {
+  const options = {
+    position: "fixed", 
+    duration: 2000,
+    containerClassName: "toast-container", 
+  };
+
+  if (type === "success") {
+    toast.success(message, options);
+  } else if (type === "error") {
+    toast.error(message, options);
+  } else {
+    toast(message, options);
   }
-  
+};
+
+

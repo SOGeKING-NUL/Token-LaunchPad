@@ -17,13 +17,15 @@ export function Airdrop() {
   async function airdropSol(){
 
     if(!wallet.publicKey){
-      notify("wallet not connected", "error")
+      notify("Wallet not Connected", "error")
+    }else if(amount==""){
+      notify("Enter Airdrop Amount", "error")
     }else{
       try{
         await connection.requestAirdrop(wallet.publicKey, parseFloat(amount) * LAMPORTS_PER_SOL);
-        notify(`Airdrop ${amount} SOL successfully`, "success")
+        notify(`Airdrop ${amount} SOL Successfully`, "success")
       }catch(e){
-        notify("Error while airdropping SOL", "error")
+        notify("Error while Airdropping SOL", "error")
       }
     };
 
