@@ -1,7 +1,7 @@
 export function SendToken() {
   return (
-    <div>
-      send_token
+    <div className="flex justify-center items-center h-full">
+      send_tokeeen
     </div>
   );
 }
