@@ -4,16 +4,18 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { useBalance } from "./BalanceContext";
 
 export function Header() {
 
-  const [balance, setBalance]= useState(0)
+  const {balance, setBalance}= useBalance();
   const wallet= useWallet();
   const {connection}= useConnection()
 
   async function getBalance(){
     if (wallet.publicKey){
-      setBalance(await connection.getBalance(wallet.publicKey))
+      const walletBalance= await connection.getBalance(wallet.publicKey)
+      setBalance(walletBalance)
     }
   }
   
@@ -26,7 +28,7 @@ export function Header() {
     }
 
     return()=>{
-      getBalance(0)
+      setBalance(0)
     }
   },[wallet.publicKey, wallet.connected, connection])
 

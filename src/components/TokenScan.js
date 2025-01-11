@@ -1,10 +1,9 @@
 
-import { Connection, PublicKey } from "@solana/web3.js";
-import { parse } from "postcss";
+import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { TokenListProvider } from '@solana/spl-token-registry';
 
+export async function getTokens(walletPublicKey, SOLbalance) {
 
-async function getTokens(walletPublicKey) {
     try {
         const connection = new Connection("https://api.devnet.solana.com", "confirmed");
 
@@ -15,7 +14,13 @@ async function getTokens(walletPublicKey) {
             }
         );
 
-        const tokens = [];
+        const tokens = [{
+            mintAddress: "So11111111111111111111111111111111111111112",
+            name: 'Wrapped SOL',
+            symbol: 'SOL',
+            logoURI: 'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
+            balance: SOLbalance/LAMPORTS_PER_SOL
+          }];
 
         for (const tokenAccount of tokenAccounts.value) {
             const accountInfo = await connection.getParsedAccountInfo(new PublicKey(tokenAccount.pubkey));
@@ -23,38 +28,47 @@ async function getTokens(walletPublicKey) {
             const mintAddress = parsedInfo.mint; // Token mint address
             const balance = parsedInfo.tokenAmount.uiAmount; // Token balance
 
-            console.log(mintAddress)
-            const metadata= await getTokenMetadata(mintAddress);
+            const metadata=  await getTokenMetadata(mintAddress);
 
             if(metadata){
                     tokens.push({ mintAddress,...metadata ,balance });
                 }
-            else{
-                console.log("something went wrong while loading metadata tokens")
-            }
         }
-
-        console.log("Tokens:", tokens);
-        return tokens;
-    } catch (error) {
-        console.error("Error fetching tokens:", error);
+        console.log(tokens)
+        return tokens.length ? tokens: [];
+    }
+    catch (error) {
+            console.error("Unexpected error:", error);
+            return null;
     }
 }
 
+let tokenList= null;
 async function getTokenMetadata(mintAddress) {
-    const tokenListProvider = new TokenListProvider();
-    const tokenList = await tokenListProvider.resolve();
-    const tokens = tokenList.getList();
 
-    const token = tokens.find(token => token.address === mintAddress);
+    if (mintAddress === "So11111111111111111111111111111111111111112") {
+        return {
+            name: "Solana",
+            symbol: "SOL",
+            logoURI: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png"
+        };
+    }
+
+    if(!tokenList){
+        const tokenListProvider = new TokenListProvider();
+        tokenList = (await tokenListProvider.resolve()).getList();
+    }
+    
+    const token = tokenList.find(token => token.address === mintAddress);
     if (token) {
         return {
             name: token.name,
             symbol: token.symbol,
             logoURI: token.logoURI
         };
-    } else {
-        return null; 
+    } else if (!token) {
+        console.warn(`No metadata found for mint address: ${mintAddress}`);
+        return null;
     }
 }
 

@@ -1,7 +1,7 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useState } from "react";
-import { notify } from "./Toast";
+import { notify } from "../components/Toast";
 
 export function Airdrop() {
 
