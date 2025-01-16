@@ -47,7 +47,7 @@ export function SendToken() {
 function NotConnected() {
   return (
     <div className="text-3xl font-bold">
-      please connect wallet to use the swapping feature
+      Please connect wallet to use the swapping feature
     </div>
   );
 }
@@ -55,7 +55,7 @@ function NotConnected() {
 function Connected({ tokens }) {
   const [address, setAddress] = useState("");
   const [amount, setAmount] = useState("");
-  const [selectedToken, setSelectedToken] = useState(tokens[0]?.symbol || "");
+  const [selectedToken, setSelectedToken] = useState(tokens[0] || null);
 
   const handleAddressChange = (e) => {
     setAddress(e.target.value);
@@ -65,35 +65,44 @@ function Connected({ tokens }) {
     setAmount(e.target.value);
   };
 
-  const handleTokenChange = (e) => {
-    setSelectedToken(e.target.value);
+  const handleTokenChange = (token) => {
+    setSelectedToken(token);
   };
+
+  const transferToken= ()=>{
+
+  }
 
   return (
     <div className="flex flex-col space-y-4">
-<CustomDropdown/>
-
-<textarea
-  value={address}
-  onChange={handleAddressChange}
-  className="text-3xl mr-2 px-5 py-2 bg-transparent text-center appearance-none focus:outline-none rounded resize-none w-[500px] h-24"
-  placeholder="wallet address"
-/>
-
-      {/* need to add a check for autenticity of the wallet address here*/}
-
-      <br />
+      <CustomDropdown
+        tokens={tokens}
+        selectedToken={selectedToken}
+        handleTokenChange={handleTokenChange}
+      />
+      <br/>
+      <textarea
+        value={address}
+        onChange={handleAddressChange}
+        className="text-3xl mr-2 px-5 py-2 bg-transparent text-center appearance-none focus:outline-none rounded resize-none w-[500px] h-24"
+        placeholder="Wallet address"
+      />
 
       <div className="flex items-center mt-4">
         <input
           value={amount}
           onChange={handleAmountChange}
           className="text-3xl mr-2 px-5 py-2 bg-transparent text-center appearance-none focus:outline-none rounded"
-          placeholder="amount"
+          placeholder="Amount"
         />
-        <div className="text-2xl mt-2 font-bold">{selectedToken}</div>
+        <div className="text-2xl mt-2 font-bold">{selectedToken?.symbol}</div>
       </div>
-      <div className="mt-4"></div>
+      <br/>
+      <button
+          onClick={transferToken} className=" text-xl mt-4 px-6 py-2 bg-comp_color text-white rounded hover:bg-comp_hover"
+        >
+          Send Token
+        </button>
     </div>
   );
 }
